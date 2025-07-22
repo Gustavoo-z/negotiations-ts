@@ -1,15 +1,15 @@
 export class Negociacoes {
-    constructor() {
-        this.negociacoes = [];
-    }
-    adiciona(negociacao) {
-        this.negociacoes.push(negociacao);
-    }
-    lista() {
-        return this.negociacoes;
-    }
+  constructor() {
+    this.negociacoes = [];
+  }
+  adiciona(negociacao) {
+    this.negociacoes.push(negociacao);
+  }
+  lista() {
+    return this.negociacoes;
+  }
 }
 const negociacoes = new Negociacoes();
 negociacoes.lista().forEach((n) => {
-    console.log(n.data, n.quantidade, n.valor, n.volume);
+  console.log(n.data, n.quantidade, n.valor, n.volume);
 });
