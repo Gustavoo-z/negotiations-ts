@@ -7,6 +7,7 @@ import { inspect } from "../decorators/inspect.js";
 import { logarTempoDeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 import { domInjector } from "../decorators/dom-injector.js";
 import { NegociacoesService } from "../services/negociacoes-service.js";
+import { imprimir } from "../utils/imprimir.js";
 
 export class NegociacaoController {
   @domInjector("#data")
@@ -37,12 +38,23 @@ export class NegociacaoController {
       return;
     }
     this.negociacoes.adiciona(negociacao);
+    imprimir(negociacao, this.negociacoes);
     this.atualizaView();
     this.limpaFormulario();
   }
 
   public importaDados(): void {
-    this.negociacoesService.obterNegociacoesDoDia().then((negociacoes) => {
+    this.negociacoesService.obterNegociacoesDoDia()
+    .then(negociacoes => {
+      return negociacoes.filter(negociacaoDeHoje => {
+        return !this.negociacoes
+          .lista()
+          .some(negociacao => negociacao
+            .ehIgual(negociacaoDeHoje)
+          );
+      })
+    })
+    .then((negociacoes) => {
       negociacoes.forEach((negociacao) => {
         this.negociacoes.adiciona(negociacao);
       });
